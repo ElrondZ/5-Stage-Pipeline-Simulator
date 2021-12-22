@@ -24,11 +24,8 @@ For the purposes of this lab only, we will assume that the beq (branch-if-qual) 
 
 # Dealing with Hazards
 
-1. RAW Hazards: RAW hazards are dealt with using either only forwarding (if possible) or, if not, using stalling + forwarding. 
+1. RAW Hazards: RAW hazards are dealt with using either only forwarding (if possible) or, if not, using stalling + forwarding.
 2. Control Flow Hazards: We assumed that branch conditions are resolved in the ID/RF stage of the pipeline. Our processor deals with beq instructions as follows:
-   &ensp;&ensp;&ensp;&ensp;&ensp;&ensp; a)  Branches are always assumed to be NOT TAKEN. That is, when a beq is fetched in the IF stage, the PC is speculatively updated as PC+4.
-   &ensp;&ensp;&ensp;&ensp;&ensp;&ensp; b)  Branch conditions are resolved in the ID/RF stage. Every beq instruction has no RAW dependency with its previous two instructions.
-   &ensp;&ensp;&ensp;&ensp;&ensp;&ensp; c)  Two operations are performed in the ID/RF stage:
-   &ensp;&ensp;&ensp;&ensp;&ensp;&ensp; &ensp;&ensp;&ensp;&ensp;&ensp;&ensp; (i) Read_data1 and Read_data2 are compared to determine the branch outcome;
-   &ensp;&ensp;&ensp;&ensp;&ensp;&ensp; &ensp;&ensp;&ensp;&ensp;&ensp;&ensp; (ii) the effective branch address is computed.
-   &ensp;&ensp;&ensp;&ensp;&ensp;&ensp; d)  If the branch is NOT TAKEN, execution proceeds normally. However, if the branch is TAKEN, the speculatively fetched instruction from PC+4 is quashed in its ID/RF stage using the nop bit and the next instruction is fetched from the effective branch address. Execution now proceeds normally.
+   1. Branches are always assumed to be NOT TAKEN. That is, when a beq is fetched in the IF stage, the PC is speculatively updated as PC+4.
+   2. Branch conditions are resolved in the ID/RF stage. Every beq instruction has no RAW dependency with its previous two instructions.
+   3. If the branch is NOT TAKEN, execution proceeds normally. However, if the branch is TAKEN, the speculatively fetched instruction from PC+4 is quashed in its ID/RF stage using the nop bit and the next instruction is fetched from the effective branch address. Execution now proceeds normally.
